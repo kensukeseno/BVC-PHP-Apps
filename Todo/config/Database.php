@@ -1,9 +1,9 @@
 <?php
 class Database{
     private $host = "localhost";
-    private $db_name = "todofs2";
+    private $db_name = "todo26";
     private $username = "root";
-    private $password = "";
+    private $password = "root";
     private $conn;
 
     public function connect(){

@@ -1,5 +1,5 @@
 <?php 
-$conn = mysqli_connect("localhost", "root", "", "login");
+$conn = mysqli_connect("localhost", "root", "root", "login");
 
 if($conn){
     // break the html structure, check inspect

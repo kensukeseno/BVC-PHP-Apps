@@ -2,45 +2,59 @@
 include "model/Task.php";
 include "config/Database.php";
 
-class TaskController{
+class TaskController
+{
     private $taskModel;
 
-    public function __construct(){
+    public function __construct()
+    {
         $database = new Database();
-        $db= $database->connect();
+        $db = $database->connect();
         $this->taskModel = new Task($db);
     }
-    public function addTask($task){
+    public function addTask($task)
+    {
         $this->taskModel->task = $task;
-        $result = $this->taskModel->create(); 
+        $result = $this->taskModel->create();
         // print_r($result);
-        if($result){
-            $_SESSION["message"]= "Task added successfully";
-
-        }else{
-            $_SESSION["message"]= "Failed to add task";
+        if (!$result) {
+            $_SESSION["message"] = "Task added successfully";
+            $_SESSION["status"] = "success";
+        } else {
+            $_SESSION["message"] = "Failed to add task";
+            $_SESSION["status"] = "fail";
         }
-       header("Location:".$_SERVER['PHP_SELF']);
-       exit;
+        header("Location:" . $_SERVER['PHP_SELF']);
+        exit;
     }
-    public function updateTask($id, $is_completed){
+    public function updateTask($id, $is_completed)
+    {
         $this->taskModel->id = $id;
         $this->taskModel->is_completed = $is_completed;
         $this->taskModel->update();
-        
-        header("Location:".$_SERVER['PHP_SELF']);
+
+        header("Location:" . $_SERVER['PHP_SELF']);
         exit;
     }
-    public function deleteTask($id){
+    public function deleteTask($id)
+    {
         $this->taskModel->id = $id;
-        $this->taskModel->delete();
-        header("Location:".$_SERVER['PHP_SELF']);
+        $result = $this->taskModel->delete();
+        if ($result != 1) {
+            $_SESSION["message"] = "Task deleted successfully";
+            $_SESSION["status"] = "success";
+        } else {
+            $_SESSION["message"] = "Failed to delete task";
+            $_SESSION["status"] = "fail";
+        }
+        header("Location:" . $_SERVER['PHP_SELF']);
         exit;
     }
-    public function index(){
+    public function index()
+    {
         $tasks = $this->taskModel->read();
         // print_r($task);
-        if($tasks->num_rows==0){
+        if ($tasks->num_rows == 0) {
             // error
         }
         // show in view

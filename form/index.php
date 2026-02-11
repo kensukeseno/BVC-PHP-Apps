@@ -18,6 +18,12 @@
         <input type="text" name="query">
         <button type="submit">Search</button>
     </form>
-    
+    <h2>Process:</h2>
+    <form action="process.php" method="POST">
+        <input type="text" name="username">
+        <input type="text" name="password">
+        <button type="submit">Process</button>
+    </form>
+
 </body>
 </html>
